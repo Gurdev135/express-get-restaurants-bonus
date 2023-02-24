@@ -10,3 +10,13 @@ app.listen(port, () => {
     sequelize.sync()
     console.log("App listening on port " + port)
 })
+
+// get all restaurants include menus in restaurants and items in menus
+app.get("/restaurants", async (req, res) => {
+    const restaurants = await Restaurant.findAll(
+        { include: [
+            {model: Menu, include: [Item]}
+        ]}
+    )
+    res.json(restaurants)
+})
